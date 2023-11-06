@@ -1,68 +1,28 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './App.css';
-import {TodoList, TaskType} from "./TodoList";
-import {v1} from "uuid";
-
-export type FilterValuesType = "all" | "active" | "completed"
 
 function App() {
-
-  const todoListTitle_1: string = "What to learn"
-  const [tasks, setTasks] = useState<Array<TaskType>>([
-    {id: v1(), title: "HTML", isDone: true},
-    {id: v1(), title: "CSS", isDone: true},
-    {id: v1(), title: "React", isDone: false},
-  ])
-  const [filter, setFilter] = useState<FilterValuesType>("all")
-
-  // useEffect(() => {
-  //   console.log(tasks)
-  // }, [filter])
-
-  const changeFilter = (filter: FilterValuesType) => {
-    setFilter(filter)
-  }
-  const removeTask = (taskId: string) => {
-    setTasks(tasks.filter(task => task.id !== taskId))
-  }
-  const addTask = (title: string) => {
-    const newTask: TaskType = {
-      id: v1(), title: title, isDone: false
-    }
-    setTasks([...tasks, newTask])
-  }
-  const changeTaskStatus = (taskId: string, isDone: boolean) => {
-    setTasks(tasks.map(t => t.id === taskId ? {...t, isDone: isDone} : t))
-  }
-
-  const getFilteredTasksForRender =
-    (tasks: Array<TaskType>, filter: FilterValuesType): Array<TaskType> => {
-      switch (filter) {
-        case "active":
-          return tasks.filter(task => !task.isDone);
-        case "completed":
-          return tasks.filter(task => task.isDone);
-        default:
-          return tasks;
-      }
-    }
-
-
-  const filteredTasksForRender = getFilteredTasksForRender(tasks, filter)
-
-  return (
-    <div className="App">
-      <TodoList
-        title={todoListTitle_1}
-        filter={filter}
-        tasks={filteredTasksForRender}
-        removeTask={removeTask}
-        changeFilter={changeFilter}
-        addTask={addTask}
-        changeTaskStatus={changeTaskStatus}
-      />
-    </div>
-  );
+    return (
+        <div className="App">
+            <div>
+                <h3>What to learn</h3>
+                <div>
+                    <input/>
+                    <button>+</button>
+                </div>
+                <ul>
+                    <li><input type="checkbox" checked={true}/> <span>HTML&CSS</span></li>
+                    <li><input type="checkbox" checked={true}/> <span>JS</span></li>
+                    <li><input type="checkbox" checked={false}/> <span>React</span></li>
+                </ul>
+                <div>
+                    <button>All</button>
+                    <button>Active</button>
+                    <button>Completed</button>
+                </div>
+            </div>
+        </div>
+    );
 }
 
 export default App;
