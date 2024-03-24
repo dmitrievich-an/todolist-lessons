@@ -16,7 +16,7 @@ function App() {
                     <li><input type="checkbox" checked={false}/> <span>React</span></li>
                 </ul>
                 <div>
-                    <button>All</button>
+                    <button>Alll</button>
                     <button>Active</button>
                     <button>Completed</button>
                 </div>
