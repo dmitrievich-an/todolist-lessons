@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './TodoList.css';
 import { FilterValuesType } from "../../App";
 
@@ -6,7 +6,6 @@ type TodoListPropsType = {
     title: string
     tasks: TaskType[]
     removeTask: (taskId: number) => void
-    changeTodoListFilter: (nextFilter: FilterValuesType) => void
 }
 
 export type TaskType = {
@@ -19,7 +18,7 @@ export const TodoList = ({
                              title,
                              tasks,
                              removeTask,
-                             changeTodoListFilter
+                             // changeTodoListFilter
                          }: TodoListPropsType) => {
 
     // const title = props.title
@@ -27,7 +26,22 @@ export const TodoList = ({
 
     // const {title, tasks} = props  //деструктурирующее присваивание (вместо двух строк выше)
 
-    const tasksList: Array<JSX.Element> = tasks.map(el => {
+    const [filter, setFilter] = useState<FilterValuesType>("all")
+
+    const getTasksForTodoList = (allTasks: Array<TaskType>, nextFilterValue: FilterValuesType) => {
+        switch (nextFilterValue) {
+            case "active":
+                return allTasks.filter(t => !t.isDone);
+            case "completed":
+                return allTasks.filter(t => t.isDone);
+            default:
+                return allTasks;
+        }
+    }
+
+    const tasksForTodoList = getTasksForTodoList(tasks, filter)
+
+    const tasksList: Array<JSX.Element> = tasksForTodoList.map(el => {
 
             const removeTaskHandler = () => removeTask(el.id)
 
@@ -53,9 +67,9 @@ export const TodoList = ({
                     { tasksList }
                 </ul>
                 <div>
-                    <button onClick={ () => changeTodoListFilter("all") }>All</button>
-                    <button onClick={ () => changeTodoListFilter("active") }>Active</button>
-                    <button onClick={ () => changeTodoListFilter("completed") }>Completed</button>
+                    <button onClick={ () => setFilter("all") }>All</button>
+                    <button onClick={ () => setFilter("active") }>Active</button>
+                    <button onClick={ () => setFilter("completed") }>Completed</button>
                 </div>
             </div>
         </div>

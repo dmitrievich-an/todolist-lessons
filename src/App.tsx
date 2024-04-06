@@ -19,34 +19,14 @@ function App() {
         setTasks(newState)
     }
 
-    const [filter, setFilter] = useState<FilterValuesType>("all")
-
-    const changeTodoListFilter = (nextFilter: FilterValuesType) => {
-        setFilter(nextFilter)
-    }
-
-    const getTasksForTodoList = (allTasks: Array<TaskType>, nextFilterValue: FilterValuesType) => {
-        switch (nextFilterValue) {
-            case "active":
-                return allTasks.filter(t => !t.isDone);
-            case "completed":
-                return allTasks.filter(t => t.isDone);
-            default:
-                return allTasks;
-        }
-    }
-
-    const tasksForTodoList = getTasksForTodoList(tasks, filter)
 
     return (
         <div className="App">
             <TodoList
                 title={ todoListTitle }
-                tasks={ tasksForTodoList }
+                tasks={ tasks }
                 removeTask={ removeTask }
-                changeTodoListFilter={ changeTodoListFilter }
             />
-            {/*<TodoList title={todoListTitle_2} tasks={tasks_2} />*/ }
         </div>
     );
 }
